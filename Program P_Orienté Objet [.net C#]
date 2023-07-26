@@ -1,0 +1,75 @@
+using System;
+
+
+abstract class ISG  
+{
+    
+    public abstract double Calculersurfce();
+}
+
+
+class Emphi1 : ISG
+{
+    public double Longueur { get; set; }
+    public double Largeur { get; set; }
+    public double Rayon { get; set; }
+
+    
+    public override double Calculersurfce()
+    {
+        return Longueur * Largeur + Math.PI * Rayon * Rayon / 2;
+    }
+}
+
+class Emphi2 : ISG
+{
+    public double Longueur { get; set; }
+    public double Largeur { get; set; }
+
+    
+    public override double Calculersurfce()
+    {
+        return Longueur * Largeur;
+    }
+}
+class Buvette : ISG 
+{
+     public bool loue  { get; set; }
+    public double trace { get; set; }
+    public double Longueur { get; set; }
+    public double Largeur { get; set; }
+
+   public override double Calculersurfce()
+  {
+    
+    if (loue == true ) { 
+    return  trace +  Longueur * Largeur  ;
+      }
+    else {
+      return  Longueur * Largeur  ;
+    }
+ 
+
+  
+}
+}
+
+class Program
+{
+    static void Main()
+    {
+        
+        Emphi1 one = new Emphi1 { Longueur = 4, Largeur = 6 ,  Rayon = 5 };
+        Emphi2 two = new Emphi2 { Longueur = 4, Largeur = 6 };
+        Buvette three = new Buvette { loue = false,  trace = 8 ,  Longueur = 3, Largeur = 4 };
+
+        // Calcul et affichage de l'aire de chaque forme
+        Console.WriteLine("Aire du Emphi1 : " + one.Calculersurfce());
+        Console.WriteLine("Aire du Emphi2 : " + two.Calculersurfce());
+          Console.WriteLine("Aire du buvette : " + three.Calculersurfce());
+        
+
+       
+        Console.ReadKey();
+    }
+}
