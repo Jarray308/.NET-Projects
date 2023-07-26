@@ -1,0 +1,40 @@
+
+
+using System;
+
+class Program
+{
+    static void Main()
+    {
+    
+        string[] condidats = { "Aymen ", "Salma", "Rami", "Ali", "sofien", "helmi" };
+
+     
+        Console.Write("Entrez le  Nom de Condidat : ");
+        string condRecherche = Console.ReadLine();
+
+      
+        bool motTrouve = false;
+        foreach (string condidat in condidats )
+        {
+            if (condidat.Equals(condRecherche, StringComparison.OrdinalIgnoreCase))
+            {
+                motTrouve = true;
+                break;
+            }
+        }
+
+    
+        if (motTrouve)
+        {
+            Console.WriteLine("Le mot \"" + condRecherche + "\" a été trouvé dans la liste de alternance.");
+        }
+        else
+        {
+            Console.WriteLine("Le mot \"" + condRecherche + "\" n'a pas été trouvé dans la liste des condidats alternance.");
+        }
+
+       
+      
+    }
+}
