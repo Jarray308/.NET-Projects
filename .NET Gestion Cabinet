@@ -1,0 +1,101 @@
+using System;
+using System.Collections.Generic;
+
+namespace CabinetMedical
+{
+    class Patient
+    {
+        public int Id { get; set; }
+        public string Nom { get; set; }
+        public string Prenom { get; set; }
+        public DateTime DateNaissance { get; set; }
+    }
+
+    class Medecin
+    {
+        public int Id { get; set; }
+        public string Nom { get; set; }
+        public string Specialite { get; set; }
+    }
+
+    class RendezVous
+    {
+        public int Id { get; set; }
+        public DateTime DateHeure { get; set; }
+        public Patient Patient { get; set; }
+        public Medecin Medecin { get; set; }
+    }
+
+    class CabinetMedicalApp
+    {
+        private List<Patient> patients = new List<Patient>();
+        private List<Medecin> medecins = new List<Medecin>();
+        private List<RendezVous> rendezVous = new List<RendezVous>();
+
+        public void AjouterPatient(string nom, string prenom, DateTime dateNaissance)
+        {
+            patients.Add(new Patient
+            {
+                Id = patients.Count + 1,
+                Nom = nom,
+                Prenom = prenom,
+                DateNaissance = dateNaissance
+            });
+        }
+
+        public void AjouterMedecin(string nom, string specialite)
+        {
+            medecins.Add(new Medecin
+            {
+                Id = medecins.Count + 1,
+                Nom = nom,
+                Specialite = specialite
+            });
+        }
+
+        public void PrendreRendezVous(DateTime dateHeure, Patient patient, Medecin medecin)
+        {
+            rendezVous.Add(new RendezVous
+            {
+                Id = rendezVous.Count + 1,
+                DateHeure = dateHeure,
+                Patient = patient,
+                Medecin = medecin
+            });
+        }
+
+        public void AfficherRendezVous()
+        {
+            foreach (var rdv in rendezVous)
+            {
+                Console.WriteLine($"Rendez-vous {rdv.Id}:");
+                Console.WriteLine($"Date et heure: {rdv.DateHeure}");
+                Console.WriteLine($"Patient: {rdv.Patient.Prenom} {rdv.Patient.Nom}");
+                Console.WriteLine($"Médecin: {rdv.Medecin.Nom} ({rdv.Medecin.Specialite})");
+                Console.WriteLine();
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            CabinetMedicalApp app = new CabinetMedicalApp();
+
+            app.AjouterPatient("test_one", "one", new DateTime(1985, 5, 10));
+            app.AjouterPatient("TEST_two", "two", new DateTime(1990, 8, 25));
+
+            app.AjouterMedecin("Dupont", "Cardio");
+            app.AjouterMedecin("Martin", "Dermae");
+
+            var patient = app.patients[0];
+            var medecin = app.medecins[0];
+
+            app.PrendreRendezVous(DateTime.Now.AddDays(1), patient, medecin);
+            app.PrendreRendezVous(DateTime.Now.AddDays(3), app.patients[1], app.medecins[1]);
+
+            app.AfficherRendezVous();
+        }
+    }
+}
