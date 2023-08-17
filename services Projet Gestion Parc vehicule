@@ -1,0 +1,7 @@
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddDbContext<ParcAutoContext>(opt =>
+        opt.UseInMemoryDatabase("ParcAutoDB"));
+
+    services.AddControllers();
+}
