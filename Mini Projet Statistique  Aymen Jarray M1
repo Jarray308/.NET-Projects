@@ -1,0 +1,25 @@
+using System;
+using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra;
+
+namespace CalculCorrelation
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            double[] dataSet1 = { 1.2, 2.5, 3.4, 4.0, 5.1 };
+            double[] dataSet2 = { 2.0, 2.8, 3.6, 4.2, 5.5 };
+
+         
+            Vector<double> vector1 = Vector<double>.Build.DenseOfArray(dataSet1);
+            Vector<double> vector2 = Vector<double>.Build.DenseOfArray(dataSet2);
+
+     
+            double correlation = Correlation.Pearson(vector1, vector2);
+
+            Console.WriteLine("Corrélation : " + correlation);
+        }
+    }
+}
