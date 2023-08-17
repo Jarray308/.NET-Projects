@@ -1,0 +1,88 @@
+[Route("api/[controller]")]
+[ApiController]
+public class VehiculesController : ControllerBase
+{
+    private readonly ParcAutoContext _context;
+
+    public VehiculesController(ParcAutoContext context)
+    {
+        _context = context;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Vehicule>>> GetVehicules()
+    {
+        return await _context.Vehicules.ToListAsync();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Vehicule>> GetVehicule(int id)
+    {
+        var vehicule = await _context.Vehicules.FindAsync(id);
+
+        if (vehicule == null)
+        {
+            return NotFound();
+        }
+
+        return vehicule;
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Vehicule>> PostVehicule(Vehicule vehicule)
+    {
+        _context.Vehicules.Add(vehicule);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetVehicule), new { id = vehicule.Id }, vehicule);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutVehicule(int id, Vehicule vehicule)
+    {
+        if (id != vehicule.Id)
+        {
+            return BadRequest();
+        }
+
+        _context.Entry(vehicule).State = EntityState.Modified;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!VehiculeExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteVehicule(int id)
+    {
+        var vehicule = await _context.Vehicules.FindAsync(id);
+        if (vehicule == null)
+        {
+            return NotFound();
+        }
+
+        _context.Vehicules.Remove(vehicule);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    private bool VehiculeExists(int id)
+    {
+        return _context.Vehicules.Any(e => e.Id == id);
+    }
+}
