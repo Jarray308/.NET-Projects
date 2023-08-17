@@ -1,0 +1,18 @@
+public class Fabricant
+{
+    public int Id { get; set; }
+    public string Nom { get; set; }
+  
+}
+
+public class Vehicule
+{
+    public int Id { get; set; }
+    public string Modele { get; set; }
+    public int Annee { get; set; }
+    public decimal Prix { get; set; }
+    public int FabricantId { get; set; }
+    public Fabricant Fabricant { get; set; }
+    
+}
+
