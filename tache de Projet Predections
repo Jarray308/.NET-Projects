@@ -1,0 +1,61 @@
+using System;
+using System.IO;
+using System.Linq;
+using Microsoft.ML;
+using Microsoft.ML.Data;
+
+namespace DataScienceProject
+{
+  
+    public class HouseData
+    {
+        [LoadColumn(0)]
+        public float Size;
+
+        [LoadColumn(1)]
+        public float Bedrooms;
+
+        [LoadColumn(2)]
+        public float Price;
+    }
+
+
+    public class HousePrediction
+    {
+        [ColumnName("Score")]
+        public float Price;
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var context = new MLContext();
+
+
+            var data = context.Data.LoadFromTextFile<HouseData>("house-prices.csv", separatorChar: ',');
+
+          
+            var trainTestSplit = context.Data.TrainTestSplit(data);
+
+            var pipeline = context.Transforms.Concatenate("Features", "Size", "Bedrooms")
+                .Append(context.Regression.Trainers.Sdca(labelColumnName: "Price"));
+
+            var model = pipeline.Fit(trainTestSplit.TrainSet);
+
+  
+            var predictions = model.Transform(trainTestSplit.TestSet);
+            var metrics = context.Regression.Evaluate(predictions);
+
+            Console.WriteLine($"RMS: {metrics.RootMeanSquaredError}");
+            Console.WriteLine($"RSquared: {metrics.RSquared}");
+
+           
+            var predictionEngine = context.Model.CreatePredictionEngine<HouseData, HousePrediction>(model);
+            var house = new HouseData { Size = 1500, Bedrooms = 3 };
+            var predictedPrice = predictionEngine.Predict(house);
+
+            Console.WriteLine($"Predicted price for {house.Size} sqft and {house.Bedrooms} bedrooms: {predictedPrice.Price}");
+        }
+    }
+}
