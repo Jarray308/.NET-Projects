@@ -1,0 +1,23 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace AnalyseDonnees
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<double> donnees = new List<double> { 12.5, 9.3, 15.7, 6.2, 18.4 };
+
+            double somme = donnees.Sum();
+            double moyenne = donnees.Average();
+            double valeurMaximale = donnees.Max();
+
+            Console.WriteLine("Données : " + string.Join(", ", donnees));
+            Console.WriteLine("Somme : " + somme);
+            Console.WriteLine("Moyenne : " + moyenne);
+            Console.WriteLine("Valeur Maximale : " + valeurMaximale);
+        }
+    }
+}
