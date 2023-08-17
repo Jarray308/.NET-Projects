@@ -1,0 +1,7 @@
+public class ParcAutoContext : DbContext
+{
+    public ParcAutoContext(DbContextOptions<ParcAutoContext> options) : base(options) { }
+
+    public DbSet<Fabricant> Fabricants { get; set; }
+    public DbSet<Vehicule> Vehicules { get; set; }
+}
